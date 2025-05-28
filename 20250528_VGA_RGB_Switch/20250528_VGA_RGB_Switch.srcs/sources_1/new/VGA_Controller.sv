@@ -1,6 +1,40 @@
 `timescale 1ns / 1ps
 
-module VGA_Controller ();
+module VGA_Controller (
+    input  logic       clk,
+    input  logic       reset,
+    input  logic [3:0] sw_red,
+    input  logic [3:0] sw_green,
+    input  logic [3:0] sw_blue,
+    output logic       h_sync,
+    output logic       v_sync,
+    output logic [3:0] red_port,
+    output logic [3:0] green_port,
+    output logic [3:0] blue_port
+);
+
+    logic DE;
+
+    VGA_Decoder U_VGA_DEC (
+        .clk    (clk),
+        .reset  (reset),
+        .h_sync (h_sync),
+        .v_sync (v_sync),
+        .x_pixel(),
+        .y_pixel(),
+        .DE     (DE)
+    );
+
+    vga_rgb_switch U_VGA_RGB_SW (
+        .sw_red    (sw_red),
+        .sw_green  (sw_green),
+        .sw_blue   (sw_blue),
+        .DE        (DE),
+        .red_port  (red_port),
+        .green_port(green_port),
+        .blue_port (blue_port)
+    );
+
 endmodule
 
 module VGA_Decoder (
@@ -113,15 +147,15 @@ module vga_decoder (
     output logic                   DE
 );
 
-    localparam // Horizon
-        H_Visible_area = 640,
+    localparam  // Horizon
+    H_Visible_area = 640,
         H_Front_porch = 16,
         H_Sync_pulse = 96,
         H_Back_porch = 48,
         H_Whole_line = 800;
 
-    localparam // Vertical
-        V_Visible_area = 480,
+    localparam  // Vertical
+    V_Visible_area = 480,
         V_Front_porch = 10,
         V_Sync_pulse = 2,
         V_Back_porch = 33,
