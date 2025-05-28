@@ -148,18 +148,18 @@ module vga_decoder (
 );
 
     localparam  // Horizon
-    H_Visible_area = 640,
-        H_Front_porch = 16,
-        H_Sync_pulse = 96,
-        H_Back_porch = 48,
-        H_Whole_line = 800;
+        H_Visible_area  = 640,
+        H_Front_porch   = 16,
+        H_Sync_pulse    = 96,
+        H_Back_porch    = 48,
+        H_Whole_line    = 800;
 
     localparam  // Vertical
-    V_Visible_area = 480,
-        V_Front_porch = 10,
-        V_Sync_pulse = 2,
-        V_Back_porch = 33,
-        V_Whole_frame = 525;
+        V_Visible_area  = 480,
+        V_Front_porch   = 10,
+        V_Sync_pulse    = 2,
+        V_Back_porch    = 33,
+        V_Whole_frame   = 525;
 
     assign h_sync = !((h_counter >= (H_Visible_area + H_Front_porch)) && (h_counter < (H_Visible_area + H_Front_porch + H_Sync_pulse)));
     assign v_sync = !((v_counter >= (V_Visible_area + V_Front_porch)) && (v_counter < (V_Visible_area + V_Front_porch + V_Sync_pulse)));
