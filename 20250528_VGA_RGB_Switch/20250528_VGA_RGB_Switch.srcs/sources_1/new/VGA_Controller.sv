@@ -3,6 +3,44 @@
 module VGA_Controller ();
 endmodule
 
+module VGA_Decoder (
+    input  logic                   clk,
+    input  logic                   reset,
+    output logic                   h_sync,
+    output logic                   v_sync,
+    output logic [$clog2(639)-1:0] x_pixel,
+    output logic [$clog2(479)-1:0] y_pixel,
+    output logic                   DE
+);
+    logic                   pclk;
+    logic [$clog2(800)-1:0] h_counter;
+    logic [$clog2(525)-1:0] v_counter;
+
+    pixel_clk_gen U_Pix_Clk_Gen (
+        .clk  (clk),
+        .reset(reset),
+        .pclk (pclk)
+    );
+
+    pixel_counter U_Pix_Counter (
+        .pclk     (pclk),
+        .reset    (reset),
+        .h_counter(h_counter),
+        .v_counter(v_counter)
+    );
+
+    vga_decoder U_VGA_Decoder (
+        .h_counter(h_counter),
+        .v_counter(v_counter),
+        .h_sync   (h_sync),
+        .v_sync   (v_sync),
+        .x_pixel  (x_pixel),
+        .y_pixel  (y_pixel),
+        .DE       (DE)
+    );
+
+endmodule
+
 module pixel_clk_gen (
     input  logic clk,
     input  logic reset,
@@ -65,18 +103,35 @@ module pixel_counter (
 
 endmodule
 
-module vga_decoder ();
+module vga_decoder (
+    input  logic [$clog2(800)-1:0] h_counter,
+    input  logic [$clog2(525)-1:0] v_counter,
+    output logic                   h_sync,
+    output logic                   v_sync,
+    output logic [$clog2(639)-1:0] x_pixel,
+    output logic [$clog2(479)-1:0] y_pixel,
+    output logic                   DE
+);
 
-    localparam Visible_area = 640;
-    localparam Front_porch = 16;
-    localparam Sync_pulse = 96;
-    localparam Back_porch = 48;
-    localparam Whole_line = 800;
+    localparam // Horizon
+        H_Visible_area = 640,
+        H_Front_porch = 16,
+        H_Sync_pulse = 96,
+        H_Back_porch = 48,
+        H_Whole_line = 800;
 
-    localparam Visible_area = 480;
-    localparam Front_porch = 10;
-    localparam Sync_pulse = 2;
-    localparam Back_porch = 33;
-    localparam Whole_frame = 525;
+    localparam // Vertical
+        V_Visible_area = 480,
+        V_Front_porch = 10,
+        V_Sync_pulse = 2,
+        V_Back_porch = 33,
+        V_Whole_frame = 525;
+
+    assign h_sync = !((h_counter >= (H_Visible_area + H_Front_porch)) && (h_counter < (H_Visible_area + H_Front_porch + H_Sync_pulse)));
+    assign v_sync = !((v_counter >= (V_Visible_area + V_Front_porch)) && (v_counter < (V_Visible_area + V_Front_porch + V_Sync_pulse)));
+
+    assign DE = (h_counter < H_Visible_area) && (v_counter < V_Visible_area);
+    assign x_pixel = DE ? h_counter : 10'bz;
+    assign y_pixel = DE ? v_counter : 10'bz;
 
 endmodule
