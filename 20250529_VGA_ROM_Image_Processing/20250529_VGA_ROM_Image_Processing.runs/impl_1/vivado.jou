@@ -9,3 +9,4 @@
 # Log file: C:/VGA_Harman/20250529_VGA_ROM_Image_Processing/20250529_VGA_ROM_Image_Processing.runs/impl_1/ImageVGA.vdi
 # Journal file: C:/VGA_Harman/20250529_VGA_ROM_Image_Processing/20250529_VGA_ROM_Image_Processing.runs/impl_1\vivado.jou
 #-----------------------------------------------------------
+source ImageVGA.tcl -notrace
