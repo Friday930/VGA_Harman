@@ -25,8 +25,7 @@ module ImageRom (
         end
         
     end
-
-
+    
     image_rom U_ROM (
         .addr(image_addr),
         .data(image_data)

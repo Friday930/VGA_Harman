@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1748504341">
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1748507914">
   <File Type="BITSTR-BMM" Name="ImageVGA_bd.bmm"/>
   <File Type="OPT-METHODOLOGY-DRC" Name="ImageVGA_methodology_drc_opted.rpt"/>
   <File Type="INIT-TIMING" Name="ImageVGA_timing_summary_init.rpt"/>

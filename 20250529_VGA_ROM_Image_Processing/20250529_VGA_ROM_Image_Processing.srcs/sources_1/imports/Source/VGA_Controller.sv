@@ -241,6 +241,8 @@ module VGA_decoder (
     assign v_sync = !((v_counter >= (V_Visible_area + V_Front_porch)) 
     && (v_counter <(V_Visible_area + V_Front_porch + V_Sync_pulse)));
     assign DE = (h_counter < H_Visible_area) && (v_counter < V_Visible_area);
-    assign x_pixel = DE ? h_counter : 10'bz; //해당 위치의 pixel값을 나타냄 --> 그 때의 pixel_count값
-    assign y_pixel = DE ? v_counter : 10'bz;
+    // assign x_pixel = DE ? h_counter : 10'bz; //해당 위치의 pixel값을 나타냄 --> 그 때의 pixel_count값
+    // assign y_pixel = DE ? v_counter : 10'bz;
+    assign x_pixel = h_counter; //해당 위치의 pixel값을 나타냄 --> 그 때의 pixel_count값
+    assign y_pixel = v_counter;
 endmodule

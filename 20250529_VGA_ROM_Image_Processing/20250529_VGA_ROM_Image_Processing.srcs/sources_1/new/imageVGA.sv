@@ -19,6 +19,8 @@ module ImageVGA (
     logic [$clog2(640)-1:0] y_pixel;
 
     logic [3:0] in_red, in_green, in_blue;
+    logic [3:0] red, green, blue;
+    logic [3:0] gray_red, gray_green, gray_blue;
 
 
     VGA_Controller U_VGA_controller (.*);
@@ -43,18 +45,19 @@ module ImageVGA (
         .blue    (blue)
     );
 
-    grayscale_converter U_Gray_Filter (
-        .in_red  (in_red),
-        .in_green(in_green),
-        .in_blue (in_blue),
-        .gray1   (gray1),
-        .gray2   (gray2),
-        .gray3   (gray3)
+    grayscale_converter u_grayscale_converter (
+        .in_red    (in_red),
+        .in_green  (in_green),
+        .in_blue   (in_blue),
+        .gray_red  (gray_red),
+        .gray_green(gray_green),
+        .gray_blue (gray_blue)
     );
+
 
     MUX2x1 U_MUX2x1 (
         .x1 ({red, green, blue}),
-        .x2 ({gray1, gray2, gray3}),
+        .x2 ({gray_red, gray_green, gray_blue}),
         .y  ({o_red, o_green, o_blue}),
         .sel(sw_mode)
     );
@@ -63,10 +66,10 @@ module ImageVGA (
 endmodule
 
 module MUX2x1 (
-    input logic [11:0] x1,
-    input logic [11:0] x2,
-    output logic [11:0] y,
-    input logic sel
+    input  logic [11:0] x1,
+    input  logic [11:0] x2,
+    input  logic        sel,
+    output logic [11:0] y
 );
 
     always_comb begin
@@ -75,6 +78,5 @@ module MUX2x1 (
             1: y = x2;
         endcase
     end
-
 
 endmodule

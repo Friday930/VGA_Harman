@@ -4,13 +4,15 @@ module grayscale_converter (
     input  logic [3:0] in_red,
     input  logic [3:0] in_green,
     input  logic [3:0] in_blue,
-    output logic [3:0] gray1,
-    output logic [3:0] gray2,
-    output logic [3:0] gray3
+    output logic [3:0] gray_red,
+    output logic [3:0] gray_green,
+    output logic [3:0] gray_blue
 );
 
-    assign gray1 = 77 * in_red;
-    assign gray2 = 150 * in_green;
-    assign gray3 = 29 * in_blue;
+    logic [11:0] gray = 77 * in_red + 150 * in_green + 29 * in_blue;
+
+    assign gray_red   = gray[11:8];
+    assign gray_green = gray[11:8];
+    assign gray_blue  = gray[11:8];
 
 endmodule
