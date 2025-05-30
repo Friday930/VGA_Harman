@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 
 module OV7670_MemController (
-    input  logic        pclk,
-    input  logic        reset,
-    input  logic        href,
-    input  logic        v_sync,
-    input  logic [ 7:0] ov7670_data,
-    output logic        we,
-    output logic        wAddr,
-    output logic [15:0] wData
+    input  logic                     pclk,
+    input  logic                     reset,
+    input  logic                     href,
+    input  logic                     v_sync,
+    input  logic [              7:0] ov7670_data,
+    output logic                     we,
+    output logic [$clog2(76800)-1:0] wAddr,
+    output logic [             15:0] wData
 );
 
     logic [$clog2(640)-1:0] h_counter;  // 320 * 2bit = 640(320 pixel)
@@ -31,7 +31,7 @@ module OV7670_MemController (
                 h_counter <= h_counter + 1;
                 if (h_counter[0] == 1'b0) begin  // even data
                     pix_data[15:8] <= ov7670_data;
-                    we             <= 1'b0; // write disable when input even data
+                    we <= 1'b0;  // write disable when input even data
                 end else begin  // odd data 
                     pix_data[7:0] <= ov7670_data;
                     we            <= 1'b1;  // write enable when input odd data
