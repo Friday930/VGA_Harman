@@ -90,7 +90,6 @@ module OV7670_VGA_Display (
         .rData(rData)
     );
 
-
     // QVGA_MemController U_QVGA_MemController (
     //     .x_pixel   (x_pixel),
     //     .y_pixel   (y_pixel),
