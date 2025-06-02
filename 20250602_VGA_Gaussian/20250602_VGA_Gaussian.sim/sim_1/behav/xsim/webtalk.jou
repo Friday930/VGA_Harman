@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Mon Jun  2 16:30:32 2025
+# Process ID: 13816
+# Current directory: C:/VGA_Harman/20250602_VGA_Gaussian/20250602_VGA_Gaussian.sim/sim_1/behav/xsim
+# Command line: wbtcv.exe -mode batch -source C:/VGA_Harman/20250602_VGA_Gaussian/20250602_VGA_Gaussian.sim/sim_1/behav/xsim/xsim.dir/tb_gaussian_filter_simple_behav/webtalk/xsim_webtalk.tcl -notrace
+# Log file: C:/VGA_Harman/20250602_VGA_Gaussian/20250602_VGA_Gaussian.sim/sim_1/behav/xsim/webtalk.log
+# Journal file: C:/VGA_Harman/20250602_VGA_Gaussian/20250602_VGA_Gaussian.sim/sim_1/behav/xsim\webtalk.jou
+#-----------------------------------------------------------
+source C:/VGA_Harman/20250602_VGA_Gaussian/20250602_VGA_Gaussian.sim/sim_1/behav/xsim/xsim.dir/tb_gaussian_filter_simple_behav/webtalk/xsim_webtalk.tcl -notrace

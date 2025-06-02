@@ -1,0 +1,12 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../20250602_VGA_Gaussian.srcs/sources_1/new/gaussian_filter.v" \
+
+sv xil_defaultlib  \
+"../../../../20250602_VGA_Gaussian.srcs/sim_1/new/tb_gaussian_filter_simple.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

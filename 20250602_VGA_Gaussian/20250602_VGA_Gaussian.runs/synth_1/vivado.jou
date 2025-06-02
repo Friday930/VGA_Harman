@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Mon Jun  2 17:40:25 2025
+# Process ID: 18484
+# Current directory: C:/VGA_Harman/20250602_VGA_Gaussian/20250602_VGA_Gaussian.runs/synth_1
+# Command line: vivado.exe -log gaussian_filter_pipeline.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source gaussian_filter_pipeline.tcl
+# Log file: C:/VGA_Harman/20250602_VGA_Gaussian/20250602_VGA_Gaussian.runs/synth_1/gaussian_filter_pipeline.vds
+# Journal file: C:/VGA_Harman/20250602_VGA_Gaussian/20250602_VGA_Gaussian.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source gaussian_filter_pipeline.tcl -notrace
