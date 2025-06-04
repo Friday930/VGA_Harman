@@ -3,10 +3,10 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="pa" timeStamp="Wed Jun  4 15:08:08 2025">
+<application name="pa" timeStamp="Wed Jun  4 17:40:12 2025">
 <section name="Project Information" visible="false">
 <property name="ProjectID" value="3ddac6dde2eb4e1a9778300e50241854" type="ProjectID"/>
-<property name="ProjectIteration" value="7" type="ProjectIteration"/>
+<property name="ProjectIteration" value="9" type="ProjectIteration"/>
 </section>
 <section name="PlanAhead Usage" visible="true">
 <item name="Project Data">
@@ -17,29 +17,45 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="ImplStrategy" value="Vivado Implementation Defaults" type="ImplStrategy"/>
 </item>
 <item name="Java Command Handlers">
-<property name="AddSources" value="3" type="JavaHandler"/>
+<property name="AddSources" value="5" type="JavaHandler"/>
+<property name="AutoConnectTarget" value="2" type="JavaHandler"/>
+<property name="FlipToViewTaskRTLAnalysis" value="1" type="JavaHandler"/>
+<property name="LaunchProgramFpga" value="3" type="JavaHandler"/>
+<property name="OpenHardwareManager" value="3" type="JavaHandler"/>
+<property name="OpenRecentTarget" value="1" type="JavaHandler"/>
+<property name="RunBitgen" value="3" type="JavaHandler"/>
 <property name="RunImplementation" value="6" type="JavaHandler"/>
-<property name="RunSchematic" value="3" type="JavaHandler"/>
-<property name="SetTopNode" value="1" type="JavaHandler"/>
+<property name="RunSchematic" value="5" type="JavaHandler"/>
+<property name="SetTopNode" value="2" type="JavaHandler"/>
 <property name="ToolsSettings" value="1" type="JavaHandler"/>
-<property name="ViewTaskProjectManager" value="2" type="JavaHandler"/>
+<property name="ViewTaskProjectManager" value="4" type="JavaHandler"/>
 <property name="ViewTaskRTLAnalysis" value="1" type="JavaHandler"/>
 </item>
 <item name="Gui Handlers">
-<property name="BaseDialog_CANCEL" value="6" type="GuiHandlerData"/>
-<property name="BaseDialog_OK" value="13" type="GuiHandlerData"/>
+<property name="AddSrcWizard_SPECIFY_OR_CREATE_CONSTRAINT_FILES" value="1" type="GuiHandlerData"/>
+<property name="BaseDialog_CANCEL" value="10" type="GuiHandlerData"/>
+<property name="BaseDialog_OK" value="20" type="GuiHandlerData"/>
+<property name="ConstraintsChooserPanel_ADD_FILES" value="1" type="GuiHandlerData"/>
 <property name="CreateSrcFileDialog_FILE_NAME" value="3" type="GuiHandlerData"/>
 <property name="CreateSrcFileDialog_FILE_TYPE" value="2" type="GuiHandlerData"/>
-<property name="FileSetPanel_FILE_SET_PANEL_TREE" value="7" type="GuiHandlerData"/>
-<property name="FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE" value="17" type="GuiHandlerData"/>
-<property name="PACommandNames_ADD_SOURCES" value="3" type="GuiHandlerData"/>
-<property name="PACommandNames_AUTO_UPDATE_HIER" value="1" type="GuiHandlerData"/>
-<property name="PACommandNames_SET_AS_TOP" value="1" type="GuiHandlerData"/>
+<property name="FileSetPanel_FILE_SET_PANEL_TREE" value="32" type="GuiHandlerData"/>
+<property name="FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE" value="29" type="GuiHandlerData"/>
+<property name="NetlistSchematicView_SHOW_IO_PORTS_IN_THIS_SCHEMATIC" value="3" type="GuiHandlerData"/>
+<property name="PACommandNames_ADD_SOURCES" value="5" type="GuiHandlerData"/>
+<property name="PACommandNames_AUTO_CONNECT_TARGET" value="2" type="GuiHandlerData"/>
+<property name="PACommandNames_AUTO_UPDATE_HIER" value="2" type="GuiHandlerData"/>
+<property name="PACommandNames_SET_AS_TOP" value="2" type="GuiHandlerData"/>
+<property name="PAViews_PROJECT_SUMMARY" value="2" type="GuiHandlerData"/>
+<property name="ProgramDebugTab_OPEN_TARGET" value="1" type="GuiHandlerData"/>
+<property name="ProgramDebugTab_PROGRAM_DEVICE" value="3" type="GuiHandlerData"/>
+<property name="ProgramFpgaDialog_PROGRAM" value="1" type="GuiHandlerData"/>
 <property name="ProjectSummaryPowerPanel_EFFECTIVE_JA" value="1" type="GuiHandlerData"/>
-<property name="ProjectTab_RELOAD" value="1" type="GuiHandlerData"/>
+<property name="ProjectTab_RELOAD" value="4" type="GuiHandlerData"/>
+<property name="SrcChooserPanel_ADD_DIRECTORIES" value="1" type="GuiHandlerData"/>
+<property name="SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT" value="1" type="GuiHandlerData"/>
 <property name="SrcChooserPanel_CREATE_FILE" value="3" type="GuiHandlerData"/>
-<property name="SrcMenu_IP_HIERARCHY" value="1" type="GuiHandlerData"/>
-<property name="TaskBanner_CLOSE" value="2" type="GuiHandlerData"/>
+<property name="SrcMenu_IP_HIERARCHY" value="2" type="GuiHandlerData"/>
+<property name="TaskBanner_CLOSE" value="5" type="GuiHandlerData"/>
 </item>
 </section>
 </application>

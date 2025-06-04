@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------
 | Tool Version              : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date                      : Wed Jun  4 16:41:30 2025
+| Date                      : Wed Jun  4 17:41:17 2025
 | Host                      : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
 | Command                   : report_io -file OV7670_VGA_Display_io_placed.rpt
 | Design                    : OV7670_VGA_Display
@@ -25,7 +25,7 @@ Table of Contents
 +---------------+
 | Total User IO |
 +---------------+
-|            28 |
+|            36 |
 +---------------+
 
 
@@ -249,9 +249,9 @@ Table of Contents
 | V12        |                | Dedicated  | M0_0                         | Config        |             |       0 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | V13        |                | High Range | IO_L24P_T3_A01_D17_14        | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | V14        |                | High Range | IO_L24N_T3_A00_D16_14        | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
-| V15        |                | High Range | IO_L21P_T3_DQS_14            | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
-| V16        |                | High Range | IO_L19P_T3_A10_D26_14        | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
-| V17        |                | High Range | IO_L19N_T3_A09_D25_VREF_14   | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
+| V15        | threshold[2]   | High Range | IO_L21P_T3_DQS_14            | INPUT         | LVCMOS33    |      14 |            |      |                     |                 NONE |         | FIXED      |           |          |      | NONE             |              |                   |              |
+| V16        | color_sel[0]   | High Range | IO_L19P_T3_A10_D26_14        | INPUT         | LVCMOS33    |      14 |            |      |                     |                 NONE |         | FIXED      |           |          |      | NONE             |              |                   |              |
+| V17        | aa_en          | High Range | IO_L19N_T3_A09_D25_VREF_14   | INPUT         | LVCMOS33    |      14 |            |      |                     |                 NONE |         | FIXED      |           |          |      | NONE             |              |                   |              |
 | V18        |                |            | GND                          | GND           |             |         |            |      |                     |                      |     0.0 |            |           |          |      |                  |              |                   |              |
 | V19        |                | High Range | IO_L15N_T2_DQS_DOUT_CSO_B_14 | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | W1         |                |            | GND                          | GND           |             |         |            |      |                     |                      |     0.0 |            |           |          |      |                  |              |                   |              |
@@ -266,11 +266,11 @@ Table of Contents
 | W10        |                | Dedicated  | TDI_0                        | Config        |             |       0 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | W11        |                | Dedicated  | M1_0                         | Config        |             |       0 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | W12        |                |            | GND                          | GND           |             |         |            |      |                     |                      |     0.0 |            |           |          |      |                  |              |                   |              |
-| W13        |                | High Range | IO_L22P_T3_A05_D21_14        | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
-| W14        |                | High Range | IO_L22N_T3_A04_D20_14        | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
-| W15        |                | High Range | IO_L21N_T3_DQS_A06_D22_14    | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
-| W16        |                | High Range | IO_L20P_T3_A08_D24_14        | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
-| W17        |                | High Range | IO_L20N_T3_A07_D23_14        | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
+| W13        | threshold[4]   | High Range | IO_L22P_T3_A05_D21_14        | INPUT         | LVCMOS33    |      14 |            |      |                     |                 NONE |         | FIXED      |           |          |      | NONE             |              |                   |              |
+| W14        | threshold[3]   | High Range | IO_L22N_T3_A04_D20_14        | INPUT         | LVCMOS33    |      14 |            |      |                     |                 NONE |         | FIXED      |           |          |      | NONE             |              |                   |              |
+| W15        | threshold[1]   | High Range | IO_L21N_T3_DQS_A06_D22_14    | INPUT         | LVCMOS33    |      14 |            |      |                     |                 NONE |         | FIXED      |           |          |      | NONE             |              |                   |              |
+| W16        | color_sel[1]   | High Range | IO_L20P_T3_A08_D24_14        | INPUT         | LVCMOS33    |      14 |            |      |                     |                 NONE |         | FIXED      |           |          |      | NONE             |              |                   |              |
+| W17        | threshold[0]   | High Range | IO_L20N_T3_A07_D23_14        | INPUT         | LVCMOS33    |      14 |            |      |                     |                 NONE |         | FIXED      |           |          |      | NONE             |              |                   |              |
 | W18        |                | High Range | IO_L16P_T2_CSI_B_14          | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 | W19        |                | High Range | IO_L16N_T2_A15_D31_14        | User IO       |             |      14 |            |      |                     |                      |         |            |           |          |      |                  |              |                   |              |
 +------------+----------------+------------+------------------------------+---------------+-------------+---------+------------+------+---------------------+----------------------+---------+------------+-----------+----------+------+------------------+--------------+-------------------+--------------+
