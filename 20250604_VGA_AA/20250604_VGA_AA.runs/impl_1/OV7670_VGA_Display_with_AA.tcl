@@ -17,7 +17,7 @@ proc create_report { reportName command } {
   }
 }
 namespace eval ::optrace {
-  variable script "C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.runs/impl_1/OV7670_VGA_Display.tcl"
+  variable script "C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.runs/impl_1/OV7670_VGA_Display_with_AA.tcl"
   variable category "vivado_impl"
 }
 
@@ -125,7 +125,6 @@ set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
   set_param chipscope.maxJobs 4
-  set_param synth.incrementalSynthesisCache C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-3956-DESKTOP-7CFQ9ND/incrSyn
   set_param xicom.use_bs_reader 1
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xc7a35tcpg236-1
@@ -141,13 +140,13 @@ OPTRACE "set parameters" START { }
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.runs/synth_1/OV7670_VGA_Display.dcp
+  add_files -quiet C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.runs/synth_1/OV7670_VGA_Display_with_AA.dcp
 OPTRACE "read constraints: implementation" START { }
   read_xdc C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/constrs_1/imports/VGA_Harman/Basys-3-Master.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }
-  link_design -top OV7670_VGA_Display -part xc7a35tcpg236-1
+  link_design -top OV7670_VGA_Display_with_AA -part xc7a35tcpg236-1
 OPTRACE "link_design" END { }
 OPTRACE "gray box cells" START { }
 OPTRACE "gray box cells" END { }
@@ -179,10 +178,10 @@ OPTRACE "opt_design" END { }
 OPTRACE "read constraints: opt_design_post" START { }
 OPTRACE "read constraints: opt_design_post" END { }
 OPTRACE "Opt Design: write_checkpoint" START { CHECKPOINT }
-  write_checkpoint -force OV7670_VGA_Display_opt.dcp
+  write_checkpoint -force OV7670_VGA_Display_with_AA_opt.dcp
 OPTRACE "Opt Design: write_checkpoint" END { }
 OPTRACE "opt_design reports" START { REPORT }
-  create_report "impl_1_opt_report_drc_0" "report_drc -file OV7670_VGA_Display_drc_opted.rpt -pb OV7670_VGA_Display_drc_opted.pb -rpx OV7670_VGA_Display_drc_opted.rpx"
+  create_report "impl_1_opt_report_drc_0" "report_drc -file OV7670_VGA_Display_with_AA_drc_opted.rpt -pb OV7670_VGA_Display_with_AA_drc_opted.pb -rpx OV7670_VGA_Display_with_AA_drc_opted.rpx"
 OPTRACE "opt_design reports" END { }
   close_msg_db -file opt_design.pb
 } RESULT]
@@ -213,12 +212,12 @@ OPTRACE "place_design" END { }
 OPTRACE "read constraints: place_design_post" START { }
 OPTRACE "read constraints: place_design_post" END { }
 OPTRACE "Place Design: write_checkpoint" START { CHECKPOINT }
-  write_checkpoint -force OV7670_VGA_Display_placed.dcp
+  write_checkpoint -force OV7670_VGA_Display_with_AA_placed.dcp
 OPTRACE "Place Design: write_checkpoint" END { }
 OPTRACE "place_design reports" START { REPORT }
-  create_report "impl_1_place_report_io_0" "report_io -file OV7670_VGA_Display_io_placed.rpt"
-  create_report "impl_1_place_report_utilization_0" "report_utilization -file OV7670_VGA_Display_utilization_placed.rpt -pb OV7670_VGA_Display_utilization_placed.pb"
-  create_report "impl_1_place_report_control_sets_0" "report_control_sets -verbose -file OV7670_VGA_Display_control_sets_placed.rpt"
+  create_report "impl_1_place_report_io_0" "report_io -file OV7670_VGA_Display_with_AA_io_placed.rpt"
+  create_report "impl_1_place_report_utilization_0" "report_utilization -file OV7670_VGA_Display_with_AA_utilization_placed.rpt -pb OV7670_VGA_Display_with_AA_utilization_placed.pb"
+  create_report "impl_1_place_report_control_sets_0" "report_control_sets -verbose -file OV7670_VGA_Display_with_AA_control_sets_placed.rpt"
 OPTRACE "place_design reports" END { }
   close_msg_db -file place_design.pb
 } RESULT]
@@ -244,7 +243,7 @@ OPTRACE "phys_opt_design" END { }
 OPTRACE "read constraints: phys_opt_design_post" START { }
 OPTRACE "read constraints: phys_opt_design_post" END { }
 OPTRACE "Post-Place Phys Opt Design: write_checkpoint" START { CHECKPOINT }
-  write_checkpoint -force OV7670_VGA_Display_physopt.dcp
+  write_checkpoint -force OV7670_VGA_Display_with_AA_physopt.dcp
 OPTRACE "Post-Place Phys Opt Design: write_checkpoint" END { }
 OPTRACE "phys_opt_design report" START { REPORT }
 OPTRACE "phys_opt_design report" END { }
@@ -272,17 +271,17 @@ OPTRACE "route_design" END { }
 OPTRACE "read constraints: route_design_post" START { }
 OPTRACE "read constraints: route_design_post" END { }
 OPTRACE "Route Design: write_checkpoint" START { CHECKPOINT }
-  write_checkpoint -force OV7670_VGA_Display_routed.dcp
+  write_checkpoint -force OV7670_VGA_Display_with_AA_routed.dcp
 OPTRACE "Route Design: write_checkpoint" END { }
 OPTRACE "route_design reports" START { REPORT }
-  create_report "impl_1_route_report_drc_0" "report_drc -file OV7670_VGA_Display_drc_routed.rpt -pb OV7670_VGA_Display_drc_routed.pb -rpx OV7670_VGA_Display_drc_routed.rpx"
-  create_report "impl_1_route_report_methodology_0" "report_methodology -file OV7670_VGA_Display_methodology_drc_routed.rpt -pb OV7670_VGA_Display_methodology_drc_routed.pb -rpx OV7670_VGA_Display_methodology_drc_routed.rpx"
-  create_report "impl_1_route_report_power_0" "report_power -file OV7670_VGA_Display_power_routed.rpt -pb OV7670_VGA_Display_power_summary_routed.pb -rpx OV7670_VGA_Display_power_routed.rpx"
-  create_report "impl_1_route_report_route_status_0" "report_route_status -file OV7670_VGA_Display_route_status.rpt -pb OV7670_VGA_Display_route_status.pb"
-  create_report "impl_1_route_report_timing_summary_0" "report_timing_summary -max_paths 10 -file OV7670_VGA_Display_timing_summary_routed.rpt -pb OV7670_VGA_Display_timing_summary_routed.pb -rpx OV7670_VGA_Display_timing_summary_routed.rpx -warn_on_violation "
-  create_report "impl_1_route_report_incremental_reuse_0" "report_incremental_reuse -file OV7670_VGA_Display_incremental_reuse_routed.rpt"
-  create_report "impl_1_route_report_clock_utilization_0" "report_clock_utilization -file OV7670_VGA_Display_clock_utilization_routed.rpt"
-  create_report "impl_1_route_report_bus_skew_0" "report_bus_skew -warn_on_violation -file OV7670_VGA_Display_bus_skew_routed.rpt -pb OV7670_VGA_Display_bus_skew_routed.pb -rpx OV7670_VGA_Display_bus_skew_routed.rpx"
+  create_report "impl_1_route_report_drc_0" "report_drc -file OV7670_VGA_Display_with_AA_drc_routed.rpt -pb OV7670_VGA_Display_with_AA_drc_routed.pb -rpx OV7670_VGA_Display_with_AA_drc_routed.rpx"
+  create_report "impl_1_route_report_methodology_0" "report_methodology -file OV7670_VGA_Display_with_AA_methodology_drc_routed.rpt -pb OV7670_VGA_Display_with_AA_methodology_drc_routed.pb -rpx OV7670_VGA_Display_with_AA_methodology_drc_routed.rpx"
+  create_report "impl_1_route_report_power_0" "report_power -file OV7670_VGA_Display_with_AA_power_routed.rpt -pb OV7670_VGA_Display_with_AA_power_summary_routed.pb -rpx OV7670_VGA_Display_with_AA_power_routed.rpx"
+  create_report "impl_1_route_report_route_status_0" "report_route_status -file OV7670_VGA_Display_with_AA_route_status.rpt -pb OV7670_VGA_Display_with_AA_route_status.pb"
+  create_report "impl_1_route_report_timing_summary_0" "report_timing_summary -max_paths 10 -file OV7670_VGA_Display_with_AA_timing_summary_routed.rpt -pb OV7670_VGA_Display_with_AA_timing_summary_routed.pb -rpx OV7670_VGA_Display_with_AA_timing_summary_routed.rpx -warn_on_violation "
+  create_report "impl_1_route_report_incremental_reuse_0" "report_incremental_reuse -file OV7670_VGA_Display_with_AA_incremental_reuse_routed.rpt"
+  create_report "impl_1_route_report_clock_utilization_0" "report_clock_utilization -file OV7670_VGA_Display_with_AA_clock_utilization_routed.rpt"
+  create_report "impl_1_route_report_bus_skew_0" "report_bus_skew -warn_on_violation -file OV7670_VGA_Display_with_AA_bus_skew_routed.rpt -pb OV7670_VGA_Display_with_AA_bus_skew_routed.pb -rpx OV7670_VGA_Display_with_AA_bus_skew_routed.rpx"
 OPTRACE "route_design reports" END { }
 OPTRACE "route_design misc" START { }
   close_msg_db -file route_design.pb
@@ -290,7 +289,7 @@ OPTRACE "route_design write_checkpoint" START { CHECKPOINT }
 OPTRACE "route_design write_checkpoint" END { }
 } RESULT]
 if {$rc} {
-  write_checkpoint -force OV7670_VGA_Display_routed_error.dcp
+  write_checkpoint -force OV7670_VGA_Display_with_AA_routed_error.dcp
   step_failed route_design
   return -code error $RESULT
 } else {
@@ -308,16 +307,16 @@ set rc [catch {
   create_msg_db write_bitstream.pb
 OPTRACE "read constraints: write_bitstream" START { }
 OPTRACE "read constraints: write_bitstream" END { }
-  catch { write_mem_info -force -no_partial_mmi OV7670_VGA_Display.mmi }
+  catch { write_mem_info -force -no_partial_mmi OV7670_VGA_Display_with_AA.mmi }
 OPTRACE "write_bitstream setup" END { }
 OPTRACE "write_bitstream" START { }
-  write_bitstream -force OV7670_VGA_Display.bit 
+  write_bitstream -force OV7670_VGA_Display_with_AA.bit 
 OPTRACE "write_bitstream" END { }
 OPTRACE "write_bitstream misc" START { }
 OPTRACE "read constraints: write_bitstream_post" START { }
 OPTRACE "read constraints: write_bitstream_post" END { }
-  catch {write_debug_probes -quiet -force OV7670_VGA_Display}
-  catch {file copy -force OV7670_VGA_Display.ltx debug_nets.ltx}
+  catch {write_debug_probes -quiet -force OV7670_VGA_Display_with_AA}
+  catch {file copy -force OV7670_VGA_Display_with_AA.ltx debug_nets.ltx}
   close_msg_db -file write_bitstream.pb
 } RESULT]
 if {$rc} {

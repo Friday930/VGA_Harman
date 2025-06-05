@@ -1,13 +1,13 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
--------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Wed Jun  4 17:40:43 2025
+| Date         : Thu Jun  5 16:47:42 2025
 | Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
-| Command      : report_utilization -file OV7670_VGA_Display_utilization_synth.rpt -pb OV7670_VGA_Display_utilization_synth.pb
-| Design       : OV7670_VGA_Display
+| Command      : report_utilization -file OV7670_VGA_Display_with_AA_utilization_synth.rpt -pb OV7670_VGA_Display_with_AA_utilization_synth.pb
+| Design       : OV7670_VGA_Display_with_AA
 | Device       : 7a35tcpg236-1
 | Design State : Synthesized
--------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 Utilization Design Information
 
@@ -27,20 +27,18 @@ Table of Contents
 1. Slice Logic
 --------------
 
-+----------------------------+------+-------+-----------+-------+
-|          Site Type         | Used | Fixed | Available | Util% |
-+----------------------------+------+-------+-----------+-------+
-| Slice LUTs*                |  501 |     0 |     20800 |  2.41 |
-|   LUT as Logic             |  341 |     0 |     20800 |  1.64 |
-|   LUT as Memory            |  160 |     0 |      9600 |  1.67 |
-|     LUT as Distributed RAM |  160 |     0 |           |       |
-|     LUT as Shift Register  |    0 |     0 |           |       |
-| Slice Registers            |  209 |     0 |     41600 |  0.50 |
-|   Register as Flip Flop    |  209 |     0 |     41600 |  0.50 |
-|   Register as Latch        |    0 |     0 |     41600 |  0.00 |
-| F7 Muxes                   |    0 |     0 |     16300 |  0.00 |
-| F8 Muxes                   |    0 |     0 |      8150 |  0.00 |
-+----------------------------+------+-------+-----------+-------+
++-------------------------+------+-------+-----------+-------+
+|        Site Type        | Used | Fixed | Available | Util% |
++-------------------------+------+-------+-----------+-------+
+| Slice LUTs*             |  318 |     0 |     20800 |  1.53 |
+|   LUT as Logic          |  318 |     0 |     20800 |  1.53 |
+|   LUT as Memory         |    0 |     0 |      9600 |  0.00 |
+| Slice Registers         |  226 |     0 |     41600 |  0.54 |
+|   Register as Flip Flop |  226 |     0 |     41600 |  0.54 |
+|   Register as Latch     |    0 |     0 |     41600 |  0.00 |
+| F7 Muxes                |    2 |     0 |     16300 |  0.01 |
+| F8 Muxes                |    1 |     0 |      8150 |  0.01 |
++-------------------------+------+-------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
 
 
@@ -56,10 +54,10 @@ Table of Contents
 | 0     |            _ |         Set |            - |
 | 0     |            _ |       Reset |            - |
 | 0     |          Yes |           - |            - |
-| 2     |          Yes |           - |          Set |
-| 180   |          Yes |           - |        Reset |
-| 0     |          Yes |         Set |            - |
-| 27    |          Yes |       Reset |            - |
+| 7     |          Yes |           - |          Set |
+| 190   |          Yes |           - |        Reset |
+| 12    |          Yes |         Set |            - |
+| 17    |          Yes |       Reset |            - |
 +-------+--------------+-------------+--------------+
 
 
@@ -69,10 +67,11 @@ Table of Contents
 +-------------------+------+-------+-----------+-------+
 |     Site Type     | Used | Fixed | Available | Util% |
 +-------------------+------+-------+-----------+-------+
-| Block RAM Tile    |   36 |     0 |        50 | 72.00 |
+| Block RAM Tile    | 36.5 |     0 |        50 | 73.00 |
 |   RAMB36/FIFO*    |   36 |     0 |        50 | 72.00 |
 |     RAMB36E1 only |   36 |       |           |       |
-|   RAMB18          |    0 |     0 |       100 |  0.00 |
+|   RAMB18          |    1 |     0 |       100 |  1.00 |
+|     RAMB18E1 only |    1 |       |           |       |
 +-------------------+------+-------+-----------+-------+
 * Note: Each Block RAM Tile only has one FIFO logic available and therefore can accommodate only one FIFO36E1 or one FIFO18E1. However, if a FIFO18E1 occupies a Block RAM Tile, that tile can still accommodate a RAMB18E1
 
@@ -80,12 +79,11 @@ Table of Contents
 3. DSP
 ------
 
-+----------------+------+-------+-----------+-------+
-|    Site Type   | Used | Fixed | Available | Util% |
-+----------------+------+-------+-----------+-------+
-| DSPs           |    1 |     0 |        90 |  1.11 |
-|   DSP48E1 only |    1 |       |           |       |
-+----------------+------+-------+-----------+-------+
++-----------+------+-------+-----------+-------+
+| Site Type | Used | Fixed | Available | Util% |
++-----------+------+-------+-----------+-------+
+| DSPs      |    0 |     0 |        90 |  0.00 |
++-----------+------+-------+-----------+-------+
 
 
 4. IO and GT Specific
@@ -94,7 +92,7 @@ Table of Contents
 +-----------------------------+------+-------+-----------+-------+
 |          Site Type          | Used | Fixed | Available | Util% |
 +-----------------------------+------+-------+-----------+-------+
-| Bonded IOB                  |   36 |     0 |       106 | 33.96 |
+| Bonded IOB                  |   33 |     0 |       106 | 31.13 |
 | Bonded IPADs                |    0 |     0 |        10 |  0.00 |
 | Bonded OPADs                |    0 |     0 |         4 |  0.00 |
 | PHY_CONTROL                 |    0 |     0 |         5 |  0.00 |
@@ -119,7 +117,7 @@ Table of Contents
 +------------+------+-------+-----------+-------+
 |  Site Type | Used | Fixed | Available | Util% |
 +------------+------+-------+-----------+-------+
-| BUFGCTRL   |    2 |     0 |        32 |  6.25 |
+| BUFGCTRL   |    3 |     0 |        32 |  9.38 |
 | BUFIO      |    0 |     0 |        20 |  0.00 |
 | MMCME2_ADV |    0 |     0 |         5 |  0.00 |
 | PLLE2_ADV  |    0 |     0 |         5 |  0.00 |
@@ -153,22 +151,25 @@ Table of Contents
 +----------+------+---------------------+
 | Ref Name | Used | Functional Category |
 +----------+------+---------------------+
-| FDCE     |  180 |        Flop & Latch |
-| RAMD64E  |  160 |  Distributed Memory |
-| LUT6     |  118 |                 LUT |
-| LUT2     |   87 |                 LUT |
-| LUT5     |   82 |                 LUT |
-| LUT3     |   73 |                 LUT |
+| FDCE     |  190 |        Flop & Latch |
+| LUT2     |   97 |                 LUT |
+| LUT4     |   81 |                 LUT |
+| LUT5     |   78 |                 LUT |
+| LUT6     |   72 |                 LUT |
+| LUT3     |   52 |                 LUT |
 | RAMB36E1 |   36 |        Block Memory |
-| LUT4     |   36 |                 LUT |
-| FDRE     |   27 |        Flop & Latch |
-| IBUF     |   21 |                  IO |
-| OBUF     |   15 |                  IO |
-| CARRY4   |    6 |          CarryLogic |
-| LUT1     |    5 |                 LUT |
-| FDPE     |    2 |        Flop & Latch |
-| BUFG     |    2 |               Clock |
-| DSP48E1  |    1 |    Block Arithmetic |
+| CARRY4   |   19 |          CarryLogic |
+| IBUF     |   17 |                  IO |
+| FDRE     |   17 |        Flop & Latch |
+| OBUF     |   16 |                  IO |
+| FDSE     |   12 |        Flop & Latch |
+| LUT1     |    8 |                 LUT |
+| FDPE     |    7 |        Flop & Latch |
+| BUFG     |    3 |               Clock |
+| MUXF7    |    2 |               MuxFx |
+| RAMB18E1 |    1 |        Block Memory |
+| OBUFT    |    1 |                  IO |
+| MUXF8    |    1 |               MuxFx |
 +----------+------+---------------------+
 
 
