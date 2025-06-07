@@ -111,181 +111,98 @@ module interpolation_filter (
     output logic       v_sync_o
 );
 
-    // 최소 메모리: 이전 픽셀 4개만 저장 (4x4 보간용)
-    logic [3:0] prev_r[0:3], prev_g[0:3], prev_b[0:3];
-    
-    // 픽셀 위치 추적 (최소 비트)
-    logic [1:0] x_phase, y_phase;  // 4x4 패턴 추적
-    logic [9:0] pixel_x, pixel_y;
-    logic de_prev;
+    // 160개 원본을 640개로 선형보간 (4배 확장)
+    logic [11:0] line_buffer[0:639];
+    logic [7:0] write_idx;
+    logic [9:0] read_idx;
+    logic [9:0] x_cnt;
+    logic de_prev, writing;
     
     always_ff @(posedge clk) de_prev <= de_i;
     wire line_start = de_i & ~de_prev;
-    wire frame_start = ~v_sync_i;
     
-    // 픽셀 좌표 카운터
+    // X 카운터
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            pixel_x <= '0;
-            pixel_y <= '0;
-            x_phase <= '0;
-            y_phase <= '0;
-        end else if (frame_start) begin
-            pixel_x <= '0;
-            pixel_y <= '0;
-            x_phase <= '0;
-            y_phase <= '0;
-        end else if (line_start) begin
-            pixel_x <= '0;
-            x_phase <= '0;
-            if (pixel_y < 479) begin
-                pixel_y <= pixel_y + 1'b1;
-                y_phase <= y_phase + 1'b1;
-            end
+            x_cnt <= '0;
+        end else if (~v_sync_i || line_start) begin
+            x_cnt <= '0;
         end else if (de_i) begin
-            if (pixel_x < 639) begin
-                pixel_x <= pixel_x + 1'b1;
-                x_phase <= x_phase + 1'b1;
-            end
+            x_cnt <= x_cnt + 1'b1;
         end
     end
-    
-    // 이전 픽셀들 시프트 레지스터
-    always_ff @(posedge clk) begin
-        if (de_i) begin
-            prev_r[3] <= prev_r[2];
-            prev_r[2] <= prev_r[1];
-            prev_r[1] <= prev_r[0];
-            prev_r[0] <= pixel_r_i;
+
+    // 수평 블랭킹에서 라인버퍼 생성 (선형보간)
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            write_idx <= 0;
+            writing <= 0;
+        end else if (~v_sync_i) begin
+            write_idx <= 0;
+            writing <= 0;
+        end else if (~h_sync_i && !writing) begin
+            writing <= 1;
+            write_idx <= 0;
+        end else if (writing && write_idx < 160) begin
+            // 160개 픽셀로 640개 생성 (선형보간)
+            logic [9:0] base_addr;
+            base_addr = write_idx << 2;  // 4배 확장
             
-            prev_g[3] <= prev_g[2];
-            prev_g[2] <= prev_g[1];
-            prev_g[1] <= prev_g[0];
-            prev_g[0] <= pixel_g_i;
+            // 원본 픽셀 저장
+            line_buffer[base_addr] <= {pixel_r_i, pixel_g_i, pixel_b_i};
             
-            prev_b[3] <= prev_b[2];
-            prev_b[2] <= prev_b[1];
-            prev_b[1] <= prev_b[0];
-            prev_b[0] <= pixel_b_i;
+            // 선형보간으로 중간값들 생성
+            if (write_idx > 0) begin
+                logic [3:0] prev_r, prev_g, prev_b;
+                logic [3:0] curr_r, curr_g, curr_b;
+                logic [4:0] step1_r, step1_g, step1_b;
+                logic [4:0] step2_r, step2_g, step2_b;
+                logic [4:0] step3_r, step3_g, step3_b;
+                
+                prev_r = line_buffer[base_addr-4][11:8];
+                prev_g = line_buffer[base_addr-4][7:4];
+                prev_b = line_buffer[base_addr-4][3:0];
+                curr_r = pixel_r_i;
+                curr_g = pixel_g_i;
+                curr_b = pixel_b_i;
+                
+                // 선형보간: prev + (curr-prev) * t
+                // t = 1/4, 2/4, 3/4
+                step1_r = {1'b0, prev_r} + (({1'b0, curr_r} - {1'b0, prev_r}) >> 2);
+                step1_g = {1'b0, prev_g} + (({1'b0, curr_g} - {1'b0, prev_g}) >> 2);
+                step1_b = {1'b0, prev_b} + (({1'b0, curr_b} - {1'b0, prev_b}) >> 2);
+                
+                step2_r = {1'b0, prev_r} + (({1'b0, curr_r} - {1'b0, prev_r}) >> 1);
+                step2_g = {1'b0, prev_g} + (({1'b0, curr_g} - {1'b0, prev_g}) >> 1);
+                step2_b = {1'b0, prev_b} + (({1'b0, curr_b} - {1'b0, prev_b}) >> 1);
+                
+                step3_r = {1'b0, prev_r} + ((({1'b0, curr_r} - {1'b0, prev_r}) * 3) >> 2);
+                step3_g = {1'b0, prev_g} + ((({1'b0, curr_g} - {1'b0, prev_g}) * 3) >> 2);
+                step3_b = {1'b0, prev_b} + ((({1'b0, curr_b} - {1'b0, prev_b}) * 3) >> 2);
+                
+                line_buffer[base_addr-3] <= {step1_r[3:0], step1_g[3:0], step1_b[3:0]};
+                line_buffer[base_addr-2] <= {step2_r[3:0], step2_g[3:0], step2_b[3:0]};
+                line_buffer[base_addr-1] <= {step3_r[3:0], step3_g[3:0], step3_b[3:0]};
+            end
+            
+            write_idx <= write_idx + 1;
+        end else if (write_idx >= 160) begin
+            writing <= 0;
         end
     end
-    
-    // 실시간 선형 보간 계산
-    logic [3:0] interp_r, interp_g, interp_b;
-    logic [4:0] blend_r, blend_g, blend_b;
-    
+
+    // 읽기: 640개 그대로 (1:1 매핑)
     always_comb begin
-        case ({y_phase, x_phase})
-            // 원본 픽셀 위치들 (4x4 격자의 모서리)
-            4'b0000, 4'b0010, 4'b1000, 4'b1010: begin
-                interp_r = pixel_r_i;  // 원본 그대로
-                interp_g = pixel_g_i;
-                interp_b = pixel_b_i;
-            end
-            
-            // 수평 보간 (홀수 x, 짝수 y)
-            4'b0001, 4'b0011, 4'b1001, 4'b1011: begin
-                if (pixel_x > 0) begin
-                    blend_r = {1'b0, pixel_r_i} + {1'b0, prev_r[0]};
-                    blend_g = {1'b0, pixel_g_i} + {1'b0, prev_g[0]};
-                    blend_b = {1'b0, pixel_b_i} + {1'b0, prev_b[0]};
-                    interp_r = blend_r[4:1];  // ÷2
-                    interp_g = blend_g[4:1];
-                    interp_b = blend_b[4:1];
-                end else begin
-                    interp_r = pixel_r_i;
-                    interp_g = pixel_g_i;
-                    interp_b = pixel_b_i;
-                end
-            end
-            
-            // 수직 보간 (짝수 x, 홀수 y) - 이전 라인과 평균
-            4'b0100, 4'b0110, 4'b1100, 4'b1110: begin
-                if (pixel_y > 0) begin
-                    // 간단한 수직 보간 (이전 픽셀과 평균)
-                    blend_r = {1'b0, pixel_r_i} + {1'b0, prev_r[1]};
-                    blend_g = {1'b0, pixel_g_i} + {1'b0, prev_g[1]};
-                    blend_b = {1'b0, pixel_b_i} + {1'b0, prev_b[1]};
-                    interp_r = blend_r[4:1];
-                    interp_g = blend_g[4:1];
-                    interp_b = blend_b[4:1];
-                end else begin
-                    interp_r = pixel_r_i;
-                    interp_g = pixel_g_i;
-                    interp_b = pixel_b_i;
-                end
-            end
-            
-            // 대각선 보간 (홀수 x, 홀수 y)
-            4'b0101, 4'b0111, 4'b1101, 4'b1111: begin
-                if (pixel_x > 0 && pixel_y > 0) begin
-                    // 4개 픽셀의 평균 (간단하게 2개씩 평균)
-                    blend_r = {1'b0, pixel_r_i} + {1'b0, prev_r[0]} + {1'b0, prev_r[1]} + {1'b0, prev_r[2]};
-                    blend_g = {1'b0, pixel_g_i} + {1'b0, prev_g[0]} + {1'b0, prev_g[1]} + {1'b0, prev_g[2]};
-                    blend_b = {1'b0, pixel_b_i} + {1'b0, prev_b[0]} + {1'b0, prev_b[1]} + {1'b0, prev_b[2]};
-                    interp_r = blend_r[5:2];  // ÷4
-                    interp_g = blend_g[5:2];
-                    interp_b = blend_b[5:2];
-                end else begin
-                    interp_r = pixel_r_i;
-                    interp_g = pixel_g_i;
-                    interp_b = pixel_b_i;
-                end
-            end
-            
-            default: begin
-                interp_r = pixel_r_i;
-                interp_g = pixel_g_i;
-                interp_b = pixel_b_i;
-            end
-        endcase
-    end
-    
-    // 에지 감지로 보간 강도 조절
-    logic apply_full_interp;
-    logic [4:0] diff_total;
-    
-    always_comb begin
-        diff_total = 0;
-        if (pixel_x > 0) begin
-            if (pixel_r_i > prev_r[0]) diff_total = diff_total + (pixel_r_i - prev_r[0]);
-            else diff_total = diff_total + (prev_r[0] - pixel_r_i);
-            
-            if (pixel_g_i > prev_g[0]) diff_total = diff_total + (pixel_g_i - prev_g[0]);
-            else diff_total = diff_total + (prev_g[0] - pixel_g_i);
-            
-            if (pixel_b_i > prev_b[0]) diff_total = diff_total + (pixel_b_i - prev_b[0]);
-            else diff_total = diff_total + (prev_b[0] - pixel_b_i);
-        end
-        
-        // 색상 변화가 클 때만 풀 보간 적용
-        apply_full_interp = (diff_total > 5'd6);
-    end
-    
-    // 최종 픽셀 값 결정
-    logic [3:0] final_r, final_g, final_b;
-    
-    always_comb begin
-        if (apply_full_interp) begin
-            // 에지 영역: 풀 보간
-            final_r = interp_r;
-            final_g = interp_g;
-            final_b = interp_b;
+        if (de_i && x_cnt < 640) begin
+            read_idx = x_cnt;  // 1:1 매핑
         end else begin
-            // 평탄한 영역: 원본 또는 약한 보간
-            case ({y_phase[0], x_phase[0]})
-                2'b00: begin  // 원본 위치
-                    final_r = pixel_r_i;
-                    final_g = pixel_g_i;
-                    final_b = pixel_b_i;
-                end
-                default: begin  // 약한 보간 (75% 원본 + 25% 보간)
-                    final_r = (({2'b00, pixel_r_i} << 1) + {2'b00, pixel_r_i} + {2'b00, interp_r}) >> 2;
-                    final_g = (({2'b00, pixel_g_i} << 1) + {2'b00, pixel_g_i} + {2'b00, interp_g}) >> 2;
-                    final_b = (({2'b00, pixel_b_i} << 1) + {2'b00, pixel_b_i} + {2'b00, interp_b}) >> 2;
-                end
-            endcase
+            read_idx = 0;
         end
+    end
+
+    logic [11:0] read_data;
+    always_ff @(posedge clk) begin
+        read_data <= line_buffer[read_idx];
     end
 
     // 출력
@@ -298,15 +215,19 @@ module interpolation_filter (
             h_sync_o <= 1'b1;
             v_sync_o <= 1'b1;
         end else begin
-            // 동기 신호 전달
             de_o <= de_i;
             h_sync_o <= h_sync_i;
             v_sync_o <= v_sync_i;
             
-            // 보간된 RGB 출력
-            pixel_r_o <= final_r;
-            pixel_g_o <= final_g;
-            pixel_b_o <= final_b;
+            if (de_i) begin
+                pixel_r_o <= read_data[11:8];
+                pixel_g_o <= read_data[7:4];
+                pixel_b_o <= read_data[3:0];
+            end else begin
+                pixel_r_o <= '0;
+                pixel_g_o <= '0;
+                pixel_b_o <= '0;
+            end
         end
     end
 
