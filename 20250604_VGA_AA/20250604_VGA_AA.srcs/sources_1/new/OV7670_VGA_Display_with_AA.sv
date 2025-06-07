@@ -161,6 +161,8 @@ module OV7670_VGA_Display_with_AA (
     logic        pixel_1bit;
     logic [3:0]  red_up, green_up, blue_up;
     logic        de_up, h_sync_up, v_sync_up;
+    logic [3:0] red_interp, green_interp, blue_interp;
+    logic       h_sync_interp, v_sync_interp, de_interp;
     // logic [3:0]  red_aa, green_aa, blue_aa;
     // logic        h_sync_aa, v_sync_aa;
 
@@ -222,7 +224,22 @@ module OV7670_VGA_Display_with_AA (
     //     .blue_port (blue_orig)
     // );
 
-    QVGA_MemController U_QVGA_MemController (
+    // QVGA_MemController U_QVGA_MemController (
+    //     .clk       (w_rclk),
+    //     .x_pixel   (x_pixel),
+    //     .y_pixel   (y_pixel),
+    //     .DE        (DE),
+    //     .rclk      (rclk),
+    //     .d_en      (oe),
+    //     .rAddr     (rAddr),
+    //     .rData     (rData),
+    //     .red_port  (red_orig),
+    //     .green_port(green_orig),
+    //     .blue_port (blue_orig),
+    //     .upscale_mode(mode_sel[1])  // mode 2,3에서 업스케일
+    // );
+
+    QQVGA_MemController U_QQVGA_MemController (
         .clk       (w_rclk),
         .x_pixel   (x_pixel),
         .y_pixel   (y_pixel),
@@ -284,7 +301,7 @@ module OV7670_VGA_Display_with_AA (
     upscale U_Upscale (
         .clk         (clk),
         .rst_n       (~reset),
-        .pixel_r_i   (red_orig),      // 원본 RGB 입력
+        .pixel_r_i   (red_orig),
         .pixel_g_i   (green_orig),
         .pixel_b_i   (blue_orig),
         .de_i        (de_full),
@@ -319,6 +336,23 @@ module OV7670_VGA_Display_with_AA (
     //     .pixel_b_o  (blue_aa),
     //     .aa_en      (aa_en)
     // );
+
+    interpolation_filter U_Interpolation_Filter (
+        .clk         (clk),
+        .rst_n       (~reset),
+        .pixel_r_i   (red_up),
+        .pixel_g_i   (green_up),
+        .pixel_b_i   (blue_up),
+        .de_i        (de_up),
+        .h_sync_i    (h_sync_up),
+        .v_sync_i    (v_sync_up),
+        .pixel_r_o   (red_interp),
+        .pixel_g_o   (green_interp),
+        .pixel_b_o   (blue_interp),
+        .de_o        (de_interp),
+        .h_sync_o    (h_sync_interp),
+        .v_sync_o    (v_sync_interp)
+    );
     
     // 출력 선택 (모드별)
     // always_ff @(posedge clk) begin
@@ -375,20 +409,20 @@ module OV7670_VGA_Display_with_AA (
                 vgaBlue  <= pixel_1bit ? 4'hF : 4'h0;
             end
             
-            2'b10: begin  // 보간 업스케일 (640x480 컬러, 부드러움)
+            2'b10: begin  // 단순 업스케일 (640x480, 픽셀화됨)
                 Hsync    <= h_sync_orig;
                 Vsync    <= v_sync_orig;
-                vgaRed   <= red_up;       // 보간된 업스케일 출력
+                vgaRed   <= red_up;
                 vgaGreen <= green_up;
                 vgaBlue  <= blue_up;
             end
             
-            2'b11: begin  // Mode 2와 동일 (또는 다른 기능)
+            2'b11: begin  // 보간 업스케일 (640x480, 부드러움)
                 Hsync    <= h_sync_orig;
                 Vsync    <= v_sync_orig;
-                vgaRed   <= red_up;       // 같은 출력
-                vgaGreen <= green_up;
-                vgaBlue  <= blue_up;
+                vgaRed   <= red_interp;
+                vgaGreen <= green_interp;
+                vgaBlue  <= blue_interp;
             end
         endcase
     end

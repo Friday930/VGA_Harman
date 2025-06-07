@@ -71,7 +71,9 @@ proc create_report { reportName command } {
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
 set_param chipscope.maxJobs 4
+set_param synth.incrementalSynthesisCache C:/Users/kccistc/AppData/Roaming/Xilinx/Vivado/.Xil/Vivado-2308-DESKTOP-7CFQ9ND/incrSyn
 set_param xicom.use_bs_reader 1
+set_msg_config -id {Common 17-41} -limit 10000000
 set_msg_config -id {Synth 8-256} -limit 10000
 set_msg_config -id {Synth 8-638} -limit 10000
 OPTRACE "Creating in-memory project" START { }
@@ -92,10 +94,11 @@ OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib -sv {
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/imports/new/OV7670_MemController.sv
-  C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/imports/new/QVGA_MemController.sv
+  C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/new/QQVGA_MemController.sv
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/new/SCCV.sv
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/imports/new/VGA_Controller.sv
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/imports/new/frame_buffer.sv
+  C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/new/interpolation_filter.sv
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/new/upscale.sv
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/new/OV7670_VGA_Display_with_AA.sv
 }

@@ -68,55 +68,7 @@ module upscale (
     output logic       v_sync_o
 );
 
-    // 이전 픽셀 저장 (보간용)
-    logic [3:0] prev_r, prev_g, prev_b;
-    
-    always_ff @(posedge clk) begin
-        if (de_i) begin
-            prev_r <= pixel_r_i;
-            prev_g <= pixel_g_i;
-            prev_b <= pixel_b_i;
-        end
-    end
-    
-    // 픽셀 좌표 카운터 (보간 위치 결정용)
-    logic [9:0] x_cnt, y_cnt;
-    logic de_prev;
-    
-    always_ff @(posedge clk) de_prev <= de_i;
-    wire line_start = de_i & ~de_prev;
-    wire frame_start = ~v_sync_i;
-    
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            x_cnt <= '0;
-            y_cnt <= '0;
-        end else if (frame_start) begin
-            x_cnt <= '0;
-            y_cnt <= '0;
-        end else if (line_start) begin
-            x_cnt <= '0;
-            if (y_cnt < 479) y_cnt <= y_cnt + 1'b1;
-        end else if (de_i) begin
-            if (x_cnt < 639) x_cnt <= x_cnt + 1'b1;
-        end
-    end
-    
-    // 보간 계산
-    logic [4:0] interp_r, interp_g, interp_b;
-    logic use_interpolation;
-    
-    always_comb begin
-        // 홀수 x 좌표에서 보간 적용 (중간 픽셀)
-        use_interpolation = x_cnt[0];
-        
-        // 현재와 이전 픽셀의 평균
-        interp_r = {1'b0, pixel_r_i} + {1'b0, prev_r};
-        interp_g = {1'b0, pixel_g_i} + {1'b0, prev_g};
-        interp_b = {1'b0, pixel_b_i} + {1'b0, prev_b};
-    end
-
-    // 출력 - 보간 또는 원본
+    // 완전히 원본 그대로 통과 (픽셀화된 업스케일)
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             pixel_r_o <= '0;
@@ -126,21 +78,15 @@ module upscale (
             h_sync_o <= 1'b1;
             v_sync_o <= 1'b1;
         end else begin
+            // 모든 신호를 그대로 통과
             de_o <= de_i;
             h_sync_o <= h_sync_i;
             v_sync_o <= v_sync_i;
             
-            if (use_interpolation) begin
-                // 보간된 중간값 (부드러운 전환)
-                pixel_r_o <= interp_r[4:1];  // ÷2
-                pixel_g_o <= interp_g[4:1];
-                pixel_b_o <= interp_b[4:1];
-            end else begin
-                // 원본 픽셀 그대로
-                pixel_r_o <= pixel_r_i;
-                pixel_g_o <= pixel_g_i;
-                pixel_b_o <= pixel_b_i;
-            end
+            // 원본 RGB 그대로 (계단식 픽셀)
+            pixel_r_o <= pixel_r_i;
+            pixel_g_o <= pixel_g_i;
+            pixel_b_o <= pixel_b_i;
         end
     end
 
