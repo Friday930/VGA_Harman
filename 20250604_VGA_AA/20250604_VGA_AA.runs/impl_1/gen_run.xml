@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1749295051">
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1749439590">
   <File Type="BITSTR-BMM" Name="OV7670_VGA_Display_with_AA_bd.bmm"/>
   <File Type="OPT-METHODOLOGY-DRC" Name="OV7670_VGA_Display_with_AA_methodology_drc_opted.rpt"/>
   <File Type="INIT-TIMING" Name="OV7670_VGA_Display_with_AA_timing_summary_init.rpt"/>
@@ -118,14 +118,7 @@
         <Attr Name="UsedIn" Val="simulation"/>
       </FileInfo>
     </File>
-    <File Path="$PSRCDIR/sources_1/new/interpolation_filter.sv">
-      <FileInfo>
-        <Attr Name="UsedIn" Val="synthesis"/>
-        <Attr Name="UsedIn" Val="implementation"/>
-        <Attr Name="UsedIn" Val="simulation"/>
-      </FileInfo>
-    </File>
-    <File Path="$PSRCDIR/sources_1/new/upscale.sv">
+    <File Path="$PSRCDIR/sources_1/new/noise_reduction_filter.sv">
       <FileInfo>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
@@ -134,6 +127,22 @@
     </File>
     <File Path="$PSRCDIR/sources_1/new/OV7670_VGA_Display_with_AA.sv">
       <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/interpolation_filter.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/new/upscale.sv">
+      <FileInfo>
+        <Attr Name="AutoDisabled" Val="1"/>
         <Attr Name="UsedIn" Val="synthesis"/>
         <Attr Name="UsedIn" Val="implementation"/>
         <Attr Name="UsedIn" Val="simulation"/>

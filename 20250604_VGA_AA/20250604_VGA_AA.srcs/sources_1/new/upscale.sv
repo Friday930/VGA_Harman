@@ -49,7 +49,7 @@
 
 module upscale (
     input  logic       clk,
-    input  logic       rst_n,
+    input  logic       rst,
     
     // 원본 RGB 입력 (4비트씩)
     input  logic [3:0] pixel_r_i,
@@ -69,8 +69,8 @@ module upscale (
 );
 
     // 완전히 원본 그대로 통과 (픽셀화된 업스케일)
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
             pixel_r_o <= '0;
             pixel_g_o <= '0;
             pixel_b_o <= '0;

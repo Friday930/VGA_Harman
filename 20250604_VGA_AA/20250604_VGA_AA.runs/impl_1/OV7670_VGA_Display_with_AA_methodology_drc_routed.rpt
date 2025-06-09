@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Sat Jun  7 20:27:27 2025
+| Date         : Mon Jun  9 12:27:37 2025
 | Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
 | Command      : report_methodology -file OV7670_VGA_Display_with_AA_methodology_drc_routed.rpt -pb OV7670_VGA_Display_with_AA_methodology_drc_routed.pb -rpx OV7670_VGA_Display_with_AA_methodology_drc_routed.rpx
 | Design       : OV7670_VGA_Display_with_AA
@@ -23,12 +23,12 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 158
+             Violations found: 154
 +-----------+------------------+--------------------------------------------+------------+
 | Rule      | Severity         | Description                                | Violations |
 +-----------+------------------+--------------------------------------------+------------+
 | TIMING-17 | Critical Warning | Non-clocked sequential cell                | 133        |
-| SYNTH-6   | Warning          | Timing of a RAM block might be sub-optimal | 6          |
+| SYNTH-6   | Warning          | Timing of a RAM block might be sub-optimal | 2          |
 | TIMING-18 | Warning          | Missing input or output delay              | 19         |
 +-----------+------------------+--------------------------------------------+------------+
 
@@ -701,32 +701,12 @@ Related violations: <none>
 
 SYNTH-6#1 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance U_Frame_Buffer/mem_reg_0_1, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance U_Frame_Buffer/mem_reg_0_3, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#2 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance U_Frame_Buffer/mem_reg_0_10, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
-Related violations: <none>
-
-SYNTH-6#3 Warning
-Timing of a RAM block might be sub-optimal  
-The timing for the instance U_Frame_Buffer/mem_reg_0_15, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
-Related violations: <none>
-
-SYNTH-6#4 Warning
-Timing of a RAM block might be sub-optimal  
-The timing for the instance U_Frame_Buffer/mem_reg_0_2, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
-Related violations: <none>
-
-SYNTH-6#5 Warning
-Timing of a RAM block might be sub-optimal  
-The timing for the instance U_Frame_Buffer/mem_reg_0_4, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
-Related violations: <none>
-
-SYNTH-6#6 Warning
-Timing of a RAM block might be sub-optimal  
-The timing for the instance U_Frame_Buffer/mem_reg_0_8, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance U_Frame_Buffer/mem_reg_0_9, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 TIMING-18#1 Warning
