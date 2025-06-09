@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1749446195">
+<GenRun Id="impl_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1749447844">
   <File Type="BITSTR-BMM" Name="OV7670_VGA_Display_with_AA_bd.bmm"/>
   <File Type="OPT-METHODOLOGY-DRC" Name="OV7670_VGA_Display_with_AA_methodology_drc_opted.rpt"/>
   <File Type="INIT-TIMING" Name="OV7670_VGA_Display_with_AA_timing_summary_init.rpt"/>

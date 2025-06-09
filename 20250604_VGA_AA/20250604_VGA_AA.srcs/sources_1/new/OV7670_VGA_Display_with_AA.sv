@@ -757,12 +757,12 @@ module OV7670_VGA_Display_with_AA (
     assign de_full = DE;  // 전체 화면 사용
     
     // upscale 모듈 제거 - 직접 연결
-    assign red_up = red_orig;
-    assign green_up = green_orig;
-    assign blue_up = blue_orig;
-    assign de_up = de_full;
-    assign h_sync_up = h_sync_orig;
-    assign v_sync_up = v_sync_orig;
+    // assign red_up = red_orig;
+    // assign green_up = green_orig;
+    // assign blue_up = blue_orig;
+    // assign de_up = de_full;
+    // assign h_sync_up = h_sync_orig;
+    // assign v_sync_up = v_sync_orig;
     
     // 안티앨리어싱 필터
     noise_reduction_filter U_Anti_Aliasing_Filter (
