@@ -84,8 +84,10 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/new/QQVGA_MemController.sv">
+      <File Path="$PSRCDIR/sources_1/imports/new/QVGA_MemController.sv">
         <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../20250530_VGA_OV7670/20250530_VGA_OV7670.srcs/sources_1/new/QVGA_MemController.sv"/>
+          <Attr Name="ImportTime" Val="1748589414"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -130,6 +132,14 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/QQVGA_MemController.sv">
+        <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/new/interpolation_filter.sv">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
@@ -141,16 +151,6 @@
       <File Path="$PSRCDIR/sources_1/new/upscale.sv">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/imports/new/QVGA_MemController.sv">
-        <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="ImportPath" Val="$PPRDIR/../20250530_VGA_OV7670/20250530_VGA_OV7670.srcs/sources_1/new/QVGA_MemController.sv"/>
-          <Attr Name="ImportTime" Val="1748589414"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>

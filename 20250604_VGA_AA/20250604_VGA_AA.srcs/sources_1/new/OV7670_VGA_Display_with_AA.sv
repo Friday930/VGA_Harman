@@ -429,6 +429,203 @@
 
 // endmodule
 
+// `timescale 1ns / 1ps
+
+// module OV7670_VGA_Display_with_AA (
+//     // global signals
+//     input  logic       clk,
+//     input  logic       reset,
+//     // ov7670 signals
+//     output logic       ov7670_xclk,    // == mclk
+//     input  logic       ov7670_pclk,
+//     input  logic       ov7670_href,
+//     input  logic       ov7670_v_sync,
+//     input  logic [7:0] ov7670_data,
+//     // export signals
+//     output logic       Hsync,
+//     output logic       Vsync,
+//     output logic [3:0] vgaRed,
+//     output logic [3:0] vgaGreen,
+//     output logic [3:0] vgaBlue,
+//     // 추가 제어 신호
+//     input  logic       initial_start,
+//     output logic       sioc,
+//     inout  logic       siod,
+//     // 디버그용
+//     input  logic [1:0] mode_sel        // 00: 원본, 01: 1비트, 10: 업스케일, 11: 보간
+// );
+
+//     // 내부 신호들
+//     logic        we;
+//     logic [16:0] wAddr;
+//     logic [15:0] wData;
+//     logic [16:0] rAddr;
+//     logic [15:0] rData;
+//     logic [ 9:0] x_pixel;
+//     logic [ 9:0] y_pixel;
+//     logic        DE;
+//     logic        w_rclk;
+//     logic        rclk;
+//     logic        oe;
+    
+//     // 중간 처리 신호
+//     logic [3:0]  red_orig, green_orig, blue_orig;
+//     logic        h_sync_orig, v_sync_orig;
+//     logic        pixel_1bit;
+//     logic [3:0]  red_up, green_up, blue_up;
+//     logic        de_up, h_sync_up, v_sync_up;
+    
+//     // 노이즈 필터 출력 신호
+//     logic [3:0]  red_filtered, green_filtered, blue_filtered;
+//     logic        de_filtered, h_sync_filtered, v_sync_filtered;
+
+//     // 픽셀 클럭 생성
+//     pixel_clk_gen U_OV7670_Clk_Gen (
+//         .clk  (clk),
+//         .reset(reset),
+//         .pclk (ov7670_xclk)
+//     );
+
+//     // VGA 컨트롤러
+//     VGA_Controller U_VGAController (
+//         .clk    (clk),
+//         .reset  (reset),
+//         .rclk   (w_rclk),
+//         .h_sync (h_sync_orig),
+//         .v_sync (v_sync_orig),
+//         .DE     (DE),
+//         .x_pixel(x_pixel),
+//         .y_pixel(y_pixel)
+//     );
+
+//     // 카메라 메모리 컨트롤러
+//     OV7670_MemController U_OV7670_MemController (
+//         .pclk       (ov7670_pclk),
+//         .reset      (reset),
+//         .href       (ov7670_href),
+//         .v_sync     (ov7670_v_sync),
+//         .ov7670_data(ov7670_data),
+//         .we         (we),
+//         .wAddr      (wAddr),
+//         .wData      (wData)
+//     );
+
+//     // 프레임 버퍼
+//     frame_buffer U_Frame_Buffer (
+//         .wclk (ov7670_pclk),
+//         .we   (we),
+//         .wAddr(wAddr),
+//         .wData(wData),
+//         .rclk (rclk),
+//         .oe   (oe),
+//         .rAddr(rAddr),
+//         .rData(rData)
+//     );
+
+//     // QQVGA 메모리 컨트롤러 (보간 기능 포함)
+//     QQVGA_MemController U_QQVGA_MemController (
+//         .clk       (w_rclk),
+//         .x_pixel   (x_pixel),
+//         .y_pixel   (y_pixel),
+//         .DE        (DE),
+//         .rclk      (rclk),
+//         .d_en      (oe),
+//         .rAddr     (rAddr),
+//         .rData     (rData),
+//         .red_port  (red_orig),
+//         .green_port(green_orig),
+//         .blue_port (blue_orig),
+//         .upscale_mode(mode_sel[1])  // mode 2,3에서 업스케일 + 보간
+//     );
+    
+//     // SCCB 모듈
+//     SCCB_core u_SCCB_core(
+//         .clk           (clk),
+//         .reset         (reset),
+//         .initial_start (initial_start),
+//         .sioc          (sioc),
+//         .siod          (siod)
+//     );
+    
+//     // 1비트 변환 (휘도 기반) - mode 1용
+//     logic [5:0] luminance;
+//     always_comb begin
+//         // 간단한 휘도 계산
+//         luminance = (red_orig + green_orig + blue_orig);
+//         pixel_1bit = (luminance > 6'd16) ? 1'b1 : 1'b0;  // 임계값 조정
+//     end
+    
+//     // DE 신호 생성 (전체 640x480 영역)
+//     logic de_full;
+//     assign de_full = DE;  // 전체 화면 사용
+    
+//     // upscale 모듈 제거 - 직접 연결
+//     assign red_up = red_orig;
+//     assign green_up = green_orig;
+//     assign blue_up = blue_orig;
+//     assign de_up = de_full;
+//     assign h_sync_up = h_sync_orig;
+//     assign v_sync_up = v_sync_orig;
+    
+//     // 노이즈 제거 필터
+//     noise_reduction_filter U_Noise_Filter (
+//         .clk         (clk),
+//         .reset       (reset),
+//         .pixel_r_i   (red_orig),
+//         .pixel_g_i   (green_orig),
+//         .pixel_b_i   (blue_orig),
+//         .de_i        (de_full),
+//         .h_sync_i    (h_sync_orig),
+//         .v_sync_i    (v_sync_orig),
+//         .pixel_r_o   (red_filtered),
+//         .pixel_g_o   (green_filtered),
+//         .pixel_b_o   (blue_filtered),
+//         .de_o        (de_filtered),
+//         .h_sync_o    (h_sync_filtered),
+//         .v_sync_o    (v_sync_filtered)
+//     );
+    
+//     // *** interpolation_filter 모듈 제거됨 ***
+    
+//     // 출력 선택 (모드별)
+//     always_ff @(posedge clk) begin
+//         case (mode_sel)
+//             2'b00: begin  // 원본 (160x120 컬러)
+//                 Hsync    <= h_sync_orig;
+//                 Vsync    <= v_sync_orig;
+//                 vgaRed   <= red_orig;
+//                 vgaGreen <= green_orig;
+//                 vgaBlue  <= blue_orig;
+//             end
+            
+//             2'b01: begin  // 1비트 변환 (160x120 흑백)
+//                 Hsync    <= h_sync_orig;
+//                 Vsync    <= v_sync_orig;
+//                 vgaRed   <= pixel_1bit ? 4'hF : 4'h0;
+//                 vgaGreen <= pixel_1bit ? 4'hF : 4'h0;
+//                 vgaBlue  <= pixel_1bit ? 4'hF : 4'h0;
+//             end
+            
+//             2'b10: begin  // 단순 업스케일 (640x480, 픽셀화됨)
+//                 Hsync    <= h_sync_orig;
+//                 Vsync    <= v_sync_orig;
+//                 vgaRed   <= red_orig;  // QQVGA에서 이미 업스케일됨
+//                 vgaGreen <= green_orig;
+//                 vgaBlue  <= blue_orig;
+//             end
+            
+//             2'b11: begin  // 노이즈 필터 적용 (640x480, 부드러움)
+//                 Hsync    <= h_sync_filtered;
+//                 Vsync    <= v_sync_filtered;
+//                 vgaRed   <= red_filtered;
+//                 vgaGreen <= green_filtered;
+//                 vgaBlue  <= blue_filtered;
+//             end
+//         endcase
+//     end
+
+// endmodule
+
 `timescale 1ns / 1ps
 
 module OV7670_VGA_Display_with_AA (
@@ -451,8 +648,8 @@ module OV7670_VGA_Display_with_AA (
     input  logic       initial_start,
     output logic       sioc,
     inout  logic       siod,
-    // 디버그용
-    input  logic [1:0] mode_sel        // 00: 원본, 01: 1비트, 10: 업스케일, 11: 보간
+            // 디버그용
+    input  logic [1:0] mode_sel        // 00: 원본, 01: 1비트, 10: 업스케일, 11: AA
 );
 
     // 내부 신호들
@@ -475,7 +672,7 @@ module OV7670_VGA_Display_with_AA (
     logic [3:0]  red_up, green_up, blue_up;
     logic        de_up, h_sync_up, v_sync_up;
     
-    // 노이즈 필터 출력 신호
+    // 안티앨리어싱 필터 출력 신호
     logic [3:0]  red_filtered, green_filtered, blue_filtered;
     logic        de_filtered, h_sync_filtered, v_sync_filtered;
 
@@ -510,7 +707,7 @@ module OV7670_VGA_Display_with_AA (
         .wData      (wData)
     );
 
-    // 프레임 버퍼
+    // 프레임 버퍼 (320x240용)
     frame_buffer U_Frame_Buffer (
         .wclk (ov7670_pclk),
         .we   (we),
@@ -522,8 +719,8 @@ module OV7670_VGA_Display_with_AA (
         .rData(rData)
     );
 
-    // QQVGA 메모리 컨트롤러 (보간 기능 포함)
-    QQVGA_MemController U_QQVGA_MemController (
+    // QVGA 메모리 컨트롤러 (320x240)
+    QVGA_MemController U_QVGA_MemController (
         .clk       (w_rclk),
         .x_pixel   (x_pixel),
         .y_pixel   (y_pixel),
@@ -535,7 +732,7 @@ module OV7670_VGA_Display_with_AA (
         .red_port  (red_orig),
         .green_port(green_orig),
         .blue_port (blue_orig),
-        .upscale_mode(mode_sel[1])  // mode 2,3에서 업스케일 + 보간
+        .upscale_mode(mode_sel[1])  // mode 2,3에서 업스케일
     );
     
     // SCCB 모듈
@@ -567,8 +764,8 @@ module OV7670_VGA_Display_with_AA (
     assign h_sync_up = h_sync_orig;
     assign v_sync_up = v_sync_orig;
     
-    // 노이즈 제거 필터
-    noise_reduction_filter U_Noise_Filter (
+    // 안티앨리어싱 필터
+    noise_reduction_filter U_Anti_Aliasing_Filter (
         .clk         (clk),
         .reset       (reset),
         .pixel_r_i   (red_orig),
@@ -590,7 +787,7 @@ module OV7670_VGA_Display_with_AA (
     // 출력 선택 (모드별)
     always_ff @(posedge clk) begin
         case (mode_sel)
-            2'b00: begin  // 원본 (160x120 컬러)
+            2'b00: begin  // 원본 (320x240 컬러)
                 Hsync    <= h_sync_orig;
                 Vsync    <= v_sync_orig;
                 vgaRed   <= red_orig;
@@ -598,7 +795,7 @@ module OV7670_VGA_Display_with_AA (
                 vgaBlue  <= blue_orig;
             end
             
-            2'b01: begin  // 1비트 변환 (160x120 흑백)
+            2'b01: begin  // 1비트 변환 (320x240 흑백)
                 Hsync    <= h_sync_orig;
                 Vsync    <= v_sync_orig;
                 vgaRed   <= pixel_1bit ? 4'hF : 4'h0;
@@ -614,7 +811,7 @@ module OV7670_VGA_Display_with_AA (
                 vgaBlue  <= blue_orig;
             end
             
-            2'b11: begin  // 노이즈 필터 적용 (640x480, 부드러움)
+            2'b11: begin  // 안티앨리어싱 필터 적용 (640x480, 부드러움)
                 Hsync    <= h_sync_filtered;
                 Vsync    <= v_sync_filtered;
                 vgaRed   <= red_filtered;

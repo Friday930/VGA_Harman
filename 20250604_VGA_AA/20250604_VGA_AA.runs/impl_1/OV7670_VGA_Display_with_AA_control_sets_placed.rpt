@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
-| Date         : Mon Jun  9 12:27:24 2025
+| Date         : Mon Jun  9 14:17:34 2025
 | Host         : DESKTOP-7CFQ9ND running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file OV7670_VGA_Display_with_AA_control_sets_placed.rpt
 | Design       : OV7670_VGA_Display_with_AA
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |    21 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    89 |
+| Unused register locations in slices containing registers |    83 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -40,14 +40,14 @@ Table of Contents
 |       Fanout       | Count |
 +--------------------+-------+
 | Total control sets |    21 |
-| >= 0 to < 4        |     4 |
-| >= 4 to < 6        |     3 |
+| >= 0 to < 4        |     3 |
+| >= 4 to < 6        |     4 |
 | >= 6 to < 8        |     2 |
 | >= 8 to < 10       |     3 |
 | >= 10 to < 12      |     2 |
-| >= 12 to < 14      |     3 |
+| >= 12 to < 14      |     2 |
 | >= 14 to < 16      |     0 |
-| >= 16              |     4 |
+| >= 16              |     5 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,11 +58,11 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               3 |            3 |
-| No           | No                    | Yes                    |              83 |           33 |
-| No           | Yes                   | No                     |              12 |            7 |
-| Yes          | No                    | No                     |              48 |           13 |
-| Yes          | No                    | Yes                    |             101 |           37 |
+| No           | No                    | No                     |               5 |            4 |
+| No           | No                    | Yes                    |              88 |           35 |
+| No           | Yes                   | No                     |              12 |            5 |
+| Yes          | No                    | No                     |              48 |           10 |
+| Yes          | No                    | Yes                    |             100 |           33 |
 | Yes          | Yes                   | No                     |               0 |            0 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
@@ -70,30 +70,30 @@ Table of Contents
 4. Detailed Control Set Information
 -----------------------------------
 
-+------------------------------------+------------------------------------------------------------+-------------------------------+------------------+----------------+--------------+
-|            Clock Signal            |                        Enable Signal                       |        Set/Reset Signal       | Slice Load Count | Bel Load Count | Bels / Slice |
-+------------------------------------+------------------------------------------------------------+-------------------------------+------------------+----------------+--------------+
-|  tick                              |                                                            |                               |                1 |              1 |         1.00 |
-|  tick                              | u_SCCB_core/U_SCCB/scl_reg_i_1_n_0                         | reset_IBUF                    |                1 |              1 |         1.00 |
-|  clk_IBUF_BUFG                     | u_SCCB_core/U_btn_detector/tick_reg_n_0                    | reset_IBUF                    |                1 |              1 |         1.00 |
-|  clk_IBUF_BUFG                     |                                                            |                               |                2 |              2 |         1.00 |
-|  tick                              | u_SCCB_core/U_SCCB/state[3]_i_1_n_0                        | reset_IBUF                    |                3 |              4 |         1.33 |
-|  tick                              | u_SCCB_core/U_SCCB_Controller/FSM_onehot_state[3]_i_1_n_0  | reset_IBUF                    |                1 |              4 |         4.00 |
-|  ov7670_pclk_IBUF_BUFG             | U_OV7670_MemController/pix_data[7]                         | reset_IBUF                    |                5 |              5 |         1.00 |
-|  ov7670_pclk_IBUF_BUFG             | U_OV7670_MemController/pix_data[15]                        | reset_IBUF                    |                7 |              7 |         1.00 |
-|  tick                              | u_SCCB_core/U_SCCB_Controller/wait_count_0                 | reset_IBUF                    |                2 |              7 |         3.50 |
-|  tick                              | u_SCCB_core/U_SCCB_Controller/rom_addr_1                   | reset_IBUF                    |                2 |              8 |         4.00 |
-|  ov7670_pclk_IBUF_BUFG             | U_OV7670_MemController/v_counter0                          | reset_IBUF                    |                2 |              9 |         4.50 |
-|  tick                              |                                                            | reset_IBUF                    |                4 |              9 |         2.25 |
-|  U_VGAController/U_Pix_Clk_gen/CLK |                                                            | reset_IBUF                    |                4 |             10 |         2.50 |
-|  U_VGAController/U_Pix_Clk_gen/CLK | U_VGAController/U_Pix_counter/v_counter                    | reset_IBUF                    |                3 |             10 |         3.33 |
-|  ov7670_pclk_IBUF_BUFG             |                                                            | reset_IBUF                    |                5 |             12 |         2.40 |
-|  clk_IBUF_BUFG                     |                                                            | U_Frame_Buffer/mem_reg_0_14_0 |                7 |             12 |         1.71 |
-|  clk_IBUF_BUFG                     | u_SCCB_core/U_btn_detector/start_reg_i_1_n_0               | reset_IBUF                    |                3 |             12 |         4.00 |
-|  tick                              | u_SCCB_core/U_SCCB_Controller/FSM_onehot_state_reg_n_0_[1] | reset_IBUF                    |                3 |             16 |         5.33 |
-|  tick                              | u_SCCB_core/U_SCCB/shifter[17]_i_1_n_0                     | reset_IBUF                    |                4 |             17 |         4.25 |
-|  clk_IBUF_BUFG                     | U_VGAController/U_Pix_counter/E[0]                         |                               |               13 |             48 |         3.69 |
-|  clk_IBUF_BUFG                     |                                                            | reset_IBUF                    |               20 |             52 |         2.60 |
-+------------------------------------+------------------------------------------------------------+-------------------------------+------------------+----------------+--------------+
++------------------------------------+------------------------------------------------------------+--------------------------------+------------------+----------------+--------------+
+|            Clock Signal            |                        Enable Signal                       |        Set/Reset Signal        | Slice Load Count | Bel Load Count | Bels / Slice |
++------------------------------------+------------------------------------------------------------+--------------------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG                     | u_SCCB_core/U_btn_detector/tick_reg_n_0                    | reset_IBUF                     |                1 |              1 |         1.00 |
+|  tick                              |                                                            |                                |                1 |              1 |         1.00 |
+|  tick                              | u_SCCB_core/U_SCCB/scl_reg_i_1_n_0                         | reset_IBUF                     |                1 |              1 |         1.00 |
+|  clk_IBUF_BUFG                     |                                                            |                                |                3 |              4 |         1.33 |
+|  tick                              | u_SCCB_core/U_SCCB/state[3]_i_1_n_0                        | reset_IBUF                     |                1 |              4 |         4.00 |
+|  tick                              | u_SCCB_core/U_SCCB_Controller/FSM_onehot_state[3]_i_1_n_0  | reset_IBUF                     |                1 |              4 |         4.00 |
+|  ov7670_pclk_IBUF_BUFG             | U_OV7670_MemController/pix_data[7]                         | reset_IBUF                     |                3 |              5 |         1.67 |
+|  ov7670_pclk_IBUF_BUFG             | U_OV7670_MemController/pix_data[15]                        | reset_IBUF                     |                6 |              7 |         1.17 |
+|  tick                              | u_SCCB_core/U_SCCB_Controller/wait_count_0                 | reset_IBUF                     |                2 |              7 |         3.50 |
+|  ov7670_pclk_IBUF_BUFG             | U_OV7670_MemController/v_counter0                          | reset_IBUF                     |                2 |              8 |         4.00 |
+|  tick                              | u_SCCB_core/U_SCCB_Controller/rom_addr_1                   | reset_IBUF                     |                2 |              8 |         4.00 |
+|  tick                              |                                                            | reset_IBUF                     |                5 |              9 |         1.80 |
+|  U_VGAController/U_Pix_Clk_gen/CLK |                                                            | reset_IBUF                     |                5 |             10 |         2.00 |
+|  U_VGAController/U_Pix_Clk_gen/CLK | U_VGAController/U_Pix_counter/v_counter                    | reset_IBUF                     |                4 |             10 |         2.50 |
+|  clk_IBUF_BUFG                     |                                                            | U_Frame_Buffer/vgaRed[3]_i_8_0 |                5 |             12 |         2.40 |
+|  clk_IBUF_BUFG                     | u_SCCB_core/U_btn_detector/start_reg_i_1_n_0               | reset_IBUF                     |                3 |             12 |         4.00 |
+|  tick                              | u_SCCB_core/U_SCCB_Controller/FSM_onehot_state_reg_n_0_[1] | reset_IBUF                     |                4 |             16 |         4.00 |
+|  ov7670_pclk_IBUF_BUFG             |                                                            | reset_IBUF                     |                6 |             17 |         2.83 |
+|  tick                              | u_SCCB_core/U_SCCB/shifter[17]_i_1_n_0                     | reset_IBUF                     |                3 |             17 |         5.67 |
+|  clk_IBUF_BUFG                     | U_VGAController/U_Pix_counter/E[0]                         |                                |               10 |             48 |         4.80 |
+|  clk_IBUF_BUFG                     |                                                            | reset_IBUF                     |               19 |             52 |         2.74 |
++------------------------------------+------------------------------------------------------------+--------------------------------+------------------+----------------+--------------+
 
 

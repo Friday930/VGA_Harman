@@ -93,7 +93,7 @@ OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib -sv {
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/imports/new/OV7670_MemController.sv
-  C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/new/QQVGA_MemController.sv
+  C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/imports/new/QVGA_MemController.sv
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/new/SCCV.sv
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/imports/new/VGA_Controller.sv
   C:/VGA_Harman/20250604_VGA_AA/20250604_VGA_AA.srcs/sources_1/imports/new/frame_buffer.sv
