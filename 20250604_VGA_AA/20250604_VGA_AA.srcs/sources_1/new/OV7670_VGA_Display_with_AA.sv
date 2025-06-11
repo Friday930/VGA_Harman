@@ -720,7 +720,23 @@ module OV7670_VGA_Display_with_AA (
     );
 
     // QVGA 메모리 컨트롤러 (320x240)
-    QVGA_MemController U_QVGA_MemController (
+    // QVGA_MemController U_QVGA_MemController (
+    //     .clk       (w_rclk),
+    //     .x_pixel   (x_pixel),
+    //     .y_pixel   (y_pixel),
+    //     .DE        (DE),
+    //     .rclk      (rclk),
+    //     .d_en      (oe),
+    //     .rAddr     (rAddr),
+    //     .rData     (rData),
+    //     .red_port  (red_orig),
+    //     .green_port(green_orig),
+    //     .blue_port (blue_orig),
+    //     .upscale_mode(mode_sel[1])  // mode 2,3에서 업스케일
+    // );
+
+        // QQVGA 메모리 컨트롤러 (보간 기능 포함)
+    QQVGA_MemController U_QQVGA_MemController (
         .clk       (w_rclk),
         .x_pixel   (x_pixel),
         .y_pixel   (y_pixel),
@@ -732,7 +748,7 @@ module OV7670_VGA_Display_with_AA (
         .red_port  (red_orig),
         .green_port(green_orig),
         .blue_port (blue_orig),
-        .upscale_mode(mode_sel[1])  // mode 2,3에서 업스케일
+        .upscale_mode(mode_sel[1])
     );
     
     // SCCB 모듈
